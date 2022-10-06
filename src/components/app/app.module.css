@@ -1,0 +1,25 @@
+.app {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.title {
+  text-align: left;
+}

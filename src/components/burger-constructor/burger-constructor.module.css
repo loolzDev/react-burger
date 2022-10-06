@@ -1,0 +1,66 @@
+.burger-main,
+.burger-ingredients,
+.burger-main-ingredients,
+.burger-main-ingredient,
+.burger-checkout,
+.burger-price {
+  display: flex;
+}
+
+.burger-main,
+.burger-ingredients,
+.burger-main-ingredients {
+  flex-direction: column;
+  gap: 16px;
+}
+
+.burger-ingredients {
+  padding: 0;
+}
+
+.burger-main-ingredients,
+.burger-ingredients {
+  list-style: none;
+  margin: 0;
+}
+
+.burger-main-ingredients {
+  padding-left: 0;
+}
+
+.burger-main {
+  max-height: calc(100vh - 520px);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.burger-main-ingredient,
+.burger-checkout,
+.burger-price {
+  align-items: center;
+}
+
+.burger-main-ingredient {
+  gap: 8px;
+}
+
+.burger-checkout {
+  justify-content: flex-end;
+  gap: 40px;
+}
+
+.burger-price {
+  gap: 9.5px;
+}
+
+.burger-main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.burger-main::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+}
+
+.burger-main::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
