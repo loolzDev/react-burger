@@ -22,9 +22,20 @@ const propTypesMainIngredients = PropTypes.shape({
   propTypesBunData,
 });
 
+const propTypesModalData = PropTypes.shape({
+  isOpen: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired,
+});
+
+const propTypesCommonModalData = PropTypes.shape({
+  modalData: propTypesModalData.isRequired,
+  showModal: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+});
+
 export const propTypesIngredients = {
   ingredients: PropTypes.arrayOf(propTypesIngredientsData).isRequired,
-  onClick: PropTypes.func.isRequired,
+  propTypesCommonModalData,
 };
 
 export const propTypesConstructor = {
@@ -32,12 +43,12 @@ export const propTypesConstructor = {
     bun: propTypesBunData.isRequired,
     mainIngredients: PropTypes.arrayOf(propTypesMainIngredients).isRequired,
   }),
-  onClick: PropTypes.func.isRequired,
+  propTypesCommonModalData,
 };
 
 export const propTypesModal = {
   children: PropTypes.element.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   onCloseModal: PropTypes.func.isRequired,
   classModifier: PropTypes.string,
 };

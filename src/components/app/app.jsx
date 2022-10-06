@@ -1,17 +1,15 @@
 import { useState, useEffect } from "react";
+
 import appStyles from "./app.module.css";
+import { getIngredients } from "../../utils/burger-api";
+
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import OrderDetails from "../order-details/order-details";
 
 function App() {
   useEffect(() => {
-    const baseUrl = "https://norma.nomoreparties.space/api/ingredients";
-    fetch(baseUrl)
-      .then((res) => res.json())
+    getIngredients()
       .then((res) => {
         setState({
           hasError: false,
@@ -31,10 +29,6 @@ function App() {
   const [modalData, setModalData] = useState({
     isOpen: false,
     type: "",
-    data: {},
-    identifier: "",
-    title: "",
-    classModifier: "",
   });
 
   const [state, setState] = useState({
@@ -59,24 +53,11 @@ function App() {
     return data;
   };
 
-  const handleClickIngredient = (ingredient) => {
+  const showModal = (modalType) => {
     setModalData({
       ...modalData,
       isOpen: true,
-      type: "details",
-      data: ingredient,
-      title: "Детали ингредиента",
-      classModifier: "ingredient-details",
-    });
-  };
-
-  const handleClickOrderButton = () => {
-    setModalData({
-      ...modalData,
-      isOpen: true,
-      type: "order",
-      identifier: "034536",
-      classModifier: "order-details",
+      type: modalType,
     });
   };
 
@@ -85,8 +66,6 @@ function App() {
       ...modalData,
       isOpen: false,
       type: "",
-      identifier: "",
-      title: "",
     });
   };
 
@@ -98,10 +77,17 @@ function App() {
           <main className={`${appStyles.main} pt-10 pb-5 pl-4 pr-4`}>
             <h2 className={`${appStyles.title} text text_type_main-large`}>Соберите бургер</h2>
             <div className={appStyles["main-content"]}>
-              <BurgerIngredients ingredients={state.ingredients} onClick={handleClickIngredient} />
+              <BurgerIngredients
+                ingredients={state.ingredients}
+                modalData={modalData}
+                onClose={closeModal}
+                showModal={showModal}
+              />
               <BurgerConstructor
                 burgerIngredients={state.burgerData}
-                onClick={handleClickOrderButton}
+                modalData={modalData}
+                onClose={closeModal}
+                showModal={showModal}
               />
             </div>
           </main>
@@ -109,22 +95,6 @@ function App() {
           <div>Упс, что-то пошло не так</div>
         )}
       </div>
-
-      {modalData.isOpen && (
-        <>
-          <Modal
-            title={modalData.title}
-            classModifier={modalData.classModifier}
-            onCloseModal={closeModal}
-          >
-            {modalData.type === "order" ? (
-              <OrderDetails identifier={modalData.identifier} />
-            ) : (
-              <IngredientDetails details={modalData.data} />
-            )}
-          </Modal>
-        </>
-      )}
     </>
   );
 }

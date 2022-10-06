@@ -6,7 +6,7 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import modalStyles from "./modal.module.css";
 import { propTypesModal } from "../../constants";
 
-const Modal = ({ children, title, onCloseModal, classModifier }) => {
+const Modal = ({ children, title = "", onCloseModal, classModifier }) => {
   useEffect(() => {
     document.addEventListener("keydown", handlePressEscape);
 
