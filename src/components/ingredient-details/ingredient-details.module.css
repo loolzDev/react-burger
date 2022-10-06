@@ -1,0 +1,24 @@
+.ingredient,
+.parameters,
+.parameter {
+  display: flex;
+}
+
+.ingredient,
+.parameter {
+  flex-direction: column;
+  align-items: center;
+}
+
+.ingredient {
+  gap: 16px;
+}
+
+.parameters {
+  gap: 20px;
+}
+
+.parameter {
+  min-width: 112px;
+  gap: 8px;
+}
