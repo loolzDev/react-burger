@@ -1,65 +1,92 @@
+import { v4 as uuidv4 } from "uuid";
 import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
 
-import {
-  ConstructorElement,
-  CurrencyIcon,
-  Button,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import MainIngredient from "./main-ingredient";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import TotalPrice from "./total-price";
+
 import constructorStyles from "./burger-constructor.module.css";
 import { propTypesConstructor } from "../../constants";
 
+import { addIngredient, addBun } from "../../services/actions/ingredients";
+
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const { selectedIngredients, totalPrice } = useSelector((store) => store.ingredients);
+  const { bun, mainIngredients } = useSelector((store) => store.ingredients.selectedIngredients);
+
+  const totalPrice =
+    bun.price * 2 + mainIngredients.reduce((sum, currentItem) => sum + currentItem.price, 0);
+
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: "ingredietns",
+    drop(ingredient) {
+      if (ingredient.type === "bun") {
+        dispatch(addBun(ingredient));
+        return;
+      }
+      bun.name && dispatch(addIngredient({ ...ingredient, uuid: uuidv4() }));
+    },
+    collect: (monitor) => ({
+      isHover: monitor.isOver() && monitor.getItem().type === "bun",
+    }),
+  });
 
   return (
     <>
       <section className={constructorStyles["burger-constructor"]}>
-        {selectedIngredients.length > 0 && (
-          <ul className={constructorStyles["burger-ingredients"]}>
-            <li className={constructorStyles["burger-bun"]}>
-              <ConstructorElement
-                type="top"
-                isLocked={true}
-                text={`${selectedIngredients.bunName} (верх)`}
-                price={selectedIngredients.bunPrice}
-                thumbnail={selectedIngredients.bunImage}
-              />
-            </li>
+        <ul
+          className={`${constructorStyles["burger-ingredients"]} ${
+            isHover ? constructorStyles["burger-ingredients-hover"] : ""
+          }`}
+          ref={dropTarget}
+        >
+          <>
+            {bun.name && (
+              <li className={constructorStyles["burger-bun"]}>
+                <ConstructorElement
+                  type="top"
+                  isLocked={true}
+                  text={`${bun.name} (верх)`}
+                  price={bun.price}
+                  thumbnail={bun.image_mobile}
+                />
+              </li>
+            )}
+
             <li className={constructorStyles["burger-main"]}>
-              <ul className={`${constructorStyles["burger-main-ingredients"]} pl-4 pr-4`}>
-                {selectedIngredients.map(({ name, price, image_mobile, _id }) => (
-                  <li key={_id} className={constructorStyles["burger-main-ingredient"]}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement text={name} price={price} thumbnail={image_mobile} />
-                  </li>
-                ))}
-              </ul>
+              {mainIngredients.length > 0 && (
+                <ul className={`${constructorStyles["burger-main-ingredients"]} pl-4 pr-4`}>
+                  {mainIngredients.map(({ name, price, image_mobile, uuid }, idx) => (
+                    <MainIngredient
+                      key={idx}
+                      name={name}
+                      price={price}
+                      image={image_mobile}
+                      uuid={uuid}
+                    />
+                  ))}
+                </ul>
+              )}
             </li>
-            <li className={constructorStyles["burger-bun"]}>
-              <ConstructorElement
-                type="bottom"
-                isLocked={true}
-                text={`${selectedIngredients.bunName} (низ)`}
-                price={selectedIngredients.bunPrice}
-                thumbnail={selectedIngredients.bunImage}
-              />
-            </li>
-          </ul>
-        )}
-        <div className={`${constructorStyles["burger-checkout"]} pl-4 pr-4 pt-10 pb-13`}>
-          <span className={`${constructorStyles["burger-price"]} text text_type_digits-medium`}>
-            {totalPrice}
-            <CurrencyIcon type="primary" />
-          </span>
-          <Button htmlType="button" type="primary" size="large">
-            Оформить заказ
-          </Button>
-        </div>
+
+            {bun.name && (
+              <li className={constructorStyles["burger-bun"]}>
+                <ConstructorElement
+                  type="bottom"
+                  isLocked={true}
+                  text={`${bun.name} (низ)`}
+                  price={bun.price}
+                  thumbnail={bun.image_mobile}
+                />
+              </li>
+            )}
+          </>
+        </ul>
+        <TotalPrice totalPrice={totalPrice} />
       </section>
       {1 < 0 && (
         <Modal classModifier="order-details">

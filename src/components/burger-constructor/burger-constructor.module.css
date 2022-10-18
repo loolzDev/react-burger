@@ -15,6 +15,9 @@
 }
 
 .burger-ingredients {
+  justify-content: center;
+  height: calc(100% - 100px);
+  width: 600px;
   padding: 0;
 }
 
@@ -29,6 +32,7 @@
 }
 
 .burger-main {
+  height: 100%;
   max-height: calc(100vh - 520px);
   overflow: hidden;
   overflow-y: auto;
@@ -63,4 +67,8 @@
 
 .burger-main::-webkit-scrollbar-thumb {
   background-color: #8585ad;
+}
+
+.burger-ingredients-hover {
+  border: 1px solid green;
 }

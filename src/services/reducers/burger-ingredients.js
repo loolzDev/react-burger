@@ -4,6 +4,9 @@ import {
   GET_INGREDIENTS_FAILED,
   SET_INGREDIENT_DETAILS,
   DELETE_INGREDIENT_DETAILS,
+  ADD_INGREDIENT,
+  ADD_BUN,
+  DELETE_INGREDIENT,
 } from "../actions/ingredients";
 
 const initialState = {
@@ -27,8 +30,10 @@ const initialState = {
     carbohydrates: null,
   },
 
-  selectedIngredients: [],
-  totalPrice: 0,
+  selectedIngredients: {
+    bun: {},
+    mainIngredients: [],
+  },
 
   orderDetails: {},
 };
@@ -76,6 +81,38 @@ export const ingredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredientDetails: initialState.ingredientDetails,
+      };
+    }
+
+    case ADD_INGREDIENT: {
+      return {
+        ...state,
+        selectedIngredients: {
+          ...state.selectedIngredients,
+          mainIngredients: [...state.selectedIngredients.mainIngredients, action.ingredient],
+        },
+      };
+    }
+
+    case ADD_BUN: {
+      return {
+        ...state,
+        selectedIngredients: {
+          ...state.selectedIngredients,
+          bun: action.bun,
+        },
+      };
+    }
+
+    case DELETE_INGREDIENT: {
+      return {
+        ...state,
+        selectedIngredients: {
+          ...state.selectedIngredients,
+          mainIngredients: state.selectedIngredients.mainIngredients.filter(
+            (item) => item.uuid !== action.uuid
+          ),
+        },
       };
     }
 
