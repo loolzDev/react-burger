@@ -12,23 +12,31 @@ import TotalPrice from "./total-price";
 import constructorStyles from "./burger-constructor.module.css";
 import { propTypesConstructor } from "../../constants";
 
-import { addIngredient, addBun } from "../../services/actions/ingredients";
+import { updateIngredients } from "../../services/actions/ingredients";
+import { addIngredient, addBun } from "../../services/actions/constructor";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const { bun, mainIngredients } = useSelector((store) => store.ingredients.selectedIngredients);
+  const { bun, mainIngredients } = useSelector(
+    (store) => store.burgerConstructor.selectedIngredients
+  );
+  const orderDetails = useSelector((store) => store.modal.orderDetails);
 
   const totalPrice =
-    bun.price * 2 + mainIngredients.reduce((sum, currentItem) => sum + currentItem.price, 0);
+    bun && bun.price * 2 + mainIngredients.reduce((sum, currentItem) => sum + currentItem.price, 0);
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredietns",
     drop(ingredient) {
       if (ingredient.type === "bun") {
+        dispatch(updateIngredients(ingredient._id));
         dispatch(addBun(ingredient));
         return;
       }
-      bun.name && dispatch(addIngredient({ ...ingredient, uuid: uuidv4() }));
+      if (bun) {
+        dispatch(updateIngredients(ingredient._id, "increment"));
+        dispatch(addIngredient({ ...ingredient, uuid: uuidv4() }));
+      }
     },
     collect: (monitor) => ({
       isHover: monitor.isOver() && monitor.getItem().type === "bun",
@@ -45,7 +53,7 @@ const BurgerConstructor = () => {
           ref={dropTarget}
         >
           <>
-            {bun.name && (
+            {bun && (
               <li className={constructorStyles["burger-bun"]}>
                 <ConstructorElement
                   type="top"
@@ -60,20 +68,21 @@ const BurgerConstructor = () => {
             <li className={constructorStyles["burger-main"]}>
               {mainIngredients.length > 0 && (
                 <ul className={`${constructorStyles["burger-main-ingredients"]} pl-4 pr-4`}>
-                  {mainIngredients.map(({ name, price, image_mobile, uuid }, idx) => (
+                  {mainIngredients.map(({ name, price, image_mobile, uuid, _id }, idx) => (
                     <MainIngredient
                       key={idx}
                       name={name}
                       price={price}
                       image={image_mobile}
                       uuid={uuid}
+                      id={_id}
                     />
                   ))}
                 </ul>
               )}
             </li>
 
-            {bun.name && (
+            {bun && (
               <li className={constructorStyles["burger-bun"]}>
                 <ConstructorElement
                   type="bottom"
@@ -88,9 +97,9 @@ const BurgerConstructor = () => {
         </ul>
         <TotalPrice totalPrice={totalPrice} />
       </section>
-      {1 < 0 && (
+      {orderDetails && (
         <Modal classModifier="order-details">
-          <OrderDetails identifier="034536"></OrderDetails>
+          <OrderDetails identifier={orderDetails.order.number} />
         </Modal>
       )}
     </>

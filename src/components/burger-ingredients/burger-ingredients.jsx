@@ -7,7 +7,7 @@ import Tabs from "./tabs";
 import Ingredients from "./ingredients";
 
 const BurgerIngredients = () => {
-  const { name: ingredientName } = useSelector((store) => store.ingredients.ingredientDetails);
+  const { name: ingredientName } = useSelector((store) => store.modal.ingredientDetails);
 
   return (
     <>

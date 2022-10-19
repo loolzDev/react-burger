@@ -2,11 +2,7 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
-  SET_INGREDIENT_DETAILS,
-  DELETE_INGREDIENT_DETAILS,
-  ADD_INGREDIENT,
-  ADD_BUN,
-  DELETE_INGREDIENT,
+  UPDATE_INGREDIENTS,
 } from "../actions/ingredients";
 
 const initialState = {
@@ -20,22 +16,42 @@ const initialState = {
     { title: "Соусы", type: "sauce" },
     { title: "Начинки", type: "main" },
   ],
+};
 
-  ingredientDetails: {
-    image: "",
-    name: "",
-    calories: null,
-    fat: null,
-    proteins: null,
-    carbohydrates: null,
-  },
+const getUpdateIngredients = (state, ingredientId, type) => {
+  return state.ingredients.map((item) =>
+    type ? updateCount(item, ingredientId, type) : updateBunCount(item, ingredientId)
+  );
+};
 
-  selectedIngredients: {
-    bun: {},
-    mainIngredients: [],
-  },
+const updateCount = (item, ingredientId, type) => {
+  let value = 1;
+  let defaultValue = 1;
 
-  orderDetails: {},
+  if (type === "decrement") {
+    value = -1;
+    defaultValue = null;
+  }
+
+  if (item._id === ingredientId) {
+    item.count = item.count ? item.count + value : defaultValue;
+    return item;
+  }
+
+  return item;
+};
+
+const updateBunCount = (item, bunId) => {
+  if (item.type === "bun" && item._id !== bunId) {
+    item.count = null;
+  }
+
+  if (item._id === bunId) {
+    item.count = 2;
+    return item;
+  }
+
+  return item;
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -62,57 +78,10 @@ export const ingredientsReducer = (state = initialState, action) => {
       };
     }
 
-    case SET_INGREDIENT_DETAILS: {
+    case UPDATE_INGREDIENTS: {
       return {
         ...state,
-        ingredientDetails: {
-          ...state.ingredientDetails,
-          image: action.ingredient.image_large,
-          name: action.ingredient.name,
-          calories: action.ingredient.calories,
-          fat: action.ingredient.fat,
-          proteins: action.ingredient.proteins,
-          carbohydrates: action.ingredient.carbohydrates,
-        },
-      };
-    }
-
-    case DELETE_INGREDIENT_DETAILS: {
-      return {
-        ...state,
-        ingredientDetails: initialState.ingredientDetails,
-      };
-    }
-
-    case ADD_INGREDIENT: {
-      return {
-        ...state,
-        selectedIngredients: {
-          ...state.selectedIngredients,
-          mainIngredients: [...state.selectedIngredients.mainIngredients, action.ingredient],
-        },
-      };
-    }
-
-    case ADD_BUN: {
-      return {
-        ...state,
-        selectedIngredients: {
-          ...state.selectedIngredients,
-          bun: action.bun,
-        },
-      };
-    }
-
-    case DELETE_INGREDIENT: {
-      return {
-        ...state,
-        selectedIngredients: {
-          ...state.selectedIngredients,
-          mainIngredients: state.selectedIngredients.mainIngredients.filter(
-            (item) => item.uuid !== action.uuid
-          ),
-        },
+        ingredients: getUpdateIngredients(state, action.ingredientId, action.actionType),
       };
     }
 

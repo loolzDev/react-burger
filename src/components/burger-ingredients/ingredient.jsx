@@ -4,10 +4,10 @@ import { useDrag } from "react-dnd";
 import ingredientsStyles from "./ingredients.module.css";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { setIngredientDetails } from "../../services/actions/ingredients";
+import { setIngredientDetails } from "../../services/actions/modal";
 
 const Ingredient = ({ item }) => {
-  const { _id: id, name, price, image } = item;
+  const { name, price, image } = item;
   const dispatch = useDispatch();
 
   const [{ isDrag }, dragRef] = useDrag({
@@ -30,7 +30,7 @@ const Ingredient = ({ item }) => {
         <CurrencyIcon />
       </span>
       <span className={ingredientsStyles["card-title"]}>{name}</span>
-      <Counter count={1} size="default" />
+      {item.count > 0 && <Counter count={item.count} size="default" />}
     </li>
   );
 };

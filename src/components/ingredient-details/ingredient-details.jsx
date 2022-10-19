@@ -4,7 +4,7 @@ import detailsStyles from "./ingredient-details.module.css";
 
 const IngredientDetails = () => {
   const { image, name, calories, fat, proteins, carbohydrates } = useSelector(
-    (store) => store.ingredients.ingredientDetails
+    (store) => store.modal.ingredientDetails
   );
   return (
     <div className={detailsStyles.ingredient}>

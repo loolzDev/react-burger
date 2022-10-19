@@ -44,5 +44,5 @@ export const propTypesModalOverlay = {
 };
 
 export const propTypesOrderDetails = {
-  identifier: PropTypes.string.isRequired,
+  identifier: PropTypes.number.isRequired,
 };

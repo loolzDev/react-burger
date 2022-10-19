@@ -6,7 +6,7 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import modalStyles from "./modal.module.css";
 import { propTypesModal } from "../../constants";
-import { DELETE_INGREDIENT_DETAILS } from "../../services/actions/ingredients";
+import { REMOVE_MODAL_DATA } from "../../services/actions/modal";
 
 const Modal = ({ children, title = "", classModifier }) => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const Modal = ({ children, title = "", classModifier }) => {
   });
 
   const handleClose = () => {
-    dispatch({ type: DELETE_INGREDIENT_DETAILS });
+    dispatch({ type: REMOVE_MODAL_DATA });
   };
 
   const handlePressEscape = (event) => {
