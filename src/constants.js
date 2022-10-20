@@ -1,36 +1,28 @@
 import PropTypes from "prop-types";
 
-const propTypesCommonData = PropTypes.shape({
+const propTypesIngredientCommonData = {
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-});
-
-const propTypesIngredientsData = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  propTypesCommonData,
-});
-
-const propTypesBunData = PropTypes.shape({
-  image_mobile: PropTypes.string.isRequired,
-  propTypesCommonData,
-});
-
-const propTypesMainIngredients = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  propTypesBunData,
-});
-
-export const propTypesIngredients = {
-  ingredients: PropTypes.arrayOf(propTypesIngredientsData).isRequired,
+  count: PropTypes.number,
 };
 
-export const propTypesConstructor = {
-  burgerIngredients: PropTypes.shape({
-    bun: propTypesBunData.isRequired,
-    mainIngredients: PropTypes.arrayOf(propTypesMainIngredients).isRequired,
+export const propTypesIngredient = {
+  item: PropTypes.shape({
+    ...propTypesIngredientCommonData,
   }),
+};
+
+export const propTypesOrderContainer = {
+  totalPrice: PropTypes.number,
+};
+
+export const propTypesMainIngredient = {
+  ...propTypesIngredientCommonData,
+  uuid: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  moveIngredient: PropTypes.func.isRequired,
 };
 
 export const propTypesModal = {

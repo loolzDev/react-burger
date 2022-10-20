@@ -11,7 +11,6 @@ import OrderDetails from "../order-details/order-details";
 import OrderContainer from "./order-container";
 
 import constructorStyles from "./burger-constructor.module.css";
-import { propTypesConstructor } from "../../constants";
 
 import { updateIngredients } from "../../services/actions/ingredients";
 import { addIngredient, addBun } from "../../services/actions/constructor";
@@ -97,7 +96,5 @@ const BurgerConstructor = () => {
     </>
   );
 };
-
-BurgerConstructor.propTypes = propTypesConstructor;
 
 export default BurgerConstructor;

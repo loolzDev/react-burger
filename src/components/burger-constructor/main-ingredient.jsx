@@ -5,6 +5,7 @@ import { useDrag, useDrop } from "react-dnd";
 import mainIngredientStyles from "./main-ingredient.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { propTypesMainIngredient } from "../../constants";
 import { updateIngredients } from "../../services/actions/ingredients";
 import { deleteIngredient } from "../../services/actions/constructor";
 
@@ -73,5 +74,7 @@ const MainIngredient = ({ name, price, image, uuid, id, index, moveIngredient })
     </li>
   );
 };
+
+MainIngredient.propTypes = propTypesMainIngredient;
 
 export default MainIngredient;

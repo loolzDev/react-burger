@@ -1,9 +1,10 @@
 import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 
-import ingredientStyles from "./ingredient.module.css";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import ingredientStyles from "./ingredient.module.css";
+import { propTypesIngredient } from "../../constants";
 import { setIngredientDetails } from "../../services/actions/modal";
 
 const Ingredient = ({ item }) => {
@@ -34,5 +35,7 @@ const Ingredient = ({ item }) => {
     </li>
   );
 };
+
+Ingredient.propTypes = propTypesIngredient;
 
 export default Ingredient;

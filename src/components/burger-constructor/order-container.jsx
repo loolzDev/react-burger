@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { propTypesOrderContainer } from "../../constants";
 import { sendSelectedIngredients } from "../../services/actions/modal";
 import orderContainerStyles from "./order-container.module.css";
 
@@ -33,5 +34,7 @@ const OrderContainer = ({ totalPrice }) => {
     </div>
   );
 };
+
+OrderContainer.propTypes = propTypesOrderContainer;
 
 export default OrderContainer;
