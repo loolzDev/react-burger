@@ -1,15 +1,10 @@
 .burger-main,
-.burger-ingredients,
-.burger-main-ingredients,
-.burger-main-ingredient,
-.burger-checkout,
-.burger-price {
+.burger-ingredients {
   display: flex;
 }
 
 .burger-main,
-.burger-ingredients,
-.burger-main-ingredients {
+.burger-ingredients {
   flex-direction: column;
   gap: 16px;
 }
@@ -21,14 +16,9 @@
   padding: 0;
 }
 
-.burger-main-ingredients,
 .burger-ingredients {
   list-style: none;
   margin: 0;
-}
-
-.burger-main-ingredients {
-  padding-left: 0;
 }
 
 .burger-main {
@@ -36,25 +26,6 @@
   max-height: calc(100vh - 520px);
   overflow: hidden;
   overflow-y: auto;
-}
-
-.burger-main-ingredient,
-.burger-checkout,
-.burger-price {
-  align-items: center;
-}
-
-.burger-main-ingredient {
-  gap: 8px;
-}
-
-.burger-checkout {
-  justify-content: flex-end;
-  gap: 40px;
-}
-
-.burger-price {
-  gap: 9.5px;
 }
 
 .burger-main::-webkit-scrollbar {
@@ -70,5 +41,9 @@
 }
 
 .burger-ingredients-hover {
-  border: 1px solid green;
+  border: 1px solid #4c4cff;
+}
+
+.burger-ingredients-error {
+  border: 1px solid red;
 }

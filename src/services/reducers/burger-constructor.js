@@ -1,4 +1,9 @@
-import { ADD_INGREDIENT, ADD_BUN, DELETE_INGREDIENT } from "../actions/constructor";
+import {
+  ADD_INGREDIENT,
+  ADD_BUN,
+  DELETE_INGREDIENT,
+  UPDATE_MAIN_INGREDIENTS,
+} from "../actions/constructor";
 
 const initialState = {
   selectedIngredients: {
@@ -37,6 +42,16 @@ export const constructorReducer = (state = initialState, action) => {
           mainIngredients: state.selectedIngredients.mainIngredients.filter(
             (item) => item.uuid !== action.uuid
           ),
+        },
+      };
+    }
+
+    case UPDATE_MAIN_INGREDIENTS: {
+      return {
+        ...state,
+        selectedIngredients: {
+          ...state.selectedIngredients,
+          mainIngredients: action.mainIngredients,
         },
       };
     }

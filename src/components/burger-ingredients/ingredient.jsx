@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 
-import ingredientsStyles from "./ingredients.module.css";
+import ingredientStyles from "./ingredient.module.css";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { setIngredientDetails } from "../../services/actions/modal";
@@ -20,16 +20,16 @@ const Ingredient = ({ item }) => {
 
   return (
     <li
-      className={ingredientsStyles.card}
+      className={`${ingredientStyles.card} ${isDrag && ingredientStyles.dragged}`}
       onClick={() => dispatch(setIngredientDetails(item))}
       ref={dragRef}
     >
       <img className="pl-4 pr-4" src={image} alt={name} />
-      <span className={`${ingredientsStyles.price} text text_type_digits-default`}>
+      <span className={`${ingredientStyles.price} text text_type_digits-default`}>
         {price}
         <CurrencyIcon />
       </span>
-      <span className={ingredientsStyles["card-title"]}>{name}</span>
+      <span className={ingredientStyles["card-title"]}>{name}</span>
       {item.count > 0 && <Counter count={item.count} size="default" />}
     </li>
   );

@@ -10,7 +10,7 @@ const Tabs = () => {
       <ul className={tabsStyles["tabs"]}>
         {ingredientTypes.map((ingredient, idx) => (
           <li key={idx} className={tabsStyles.item}>
-            <Tab active={currentTab === ingredient.title}>{ingredient.title}</Tab>
+            <Tab active={ingredient.type === currentTab}>{ingredient.title}</Tab>
           </li>
         ))}
       </ul>

@@ -1,13 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
+import { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import MainIngredient from "./main-ingredient";
+import MainIngredients from "./main-ingredients";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import TotalPrice from "./total-price";
+import OrderContainer from "./order-container";
 
 import constructorStyles from "./burger-constructor.module.css";
 import { propTypesConstructor } from "../../constants";
@@ -22,10 +23,14 @@ const BurgerConstructor = () => {
   );
   const orderDetails = useSelector((store) => store.modal.orderDetails);
 
-  const totalPrice =
-    bun && bun.price * 2 + mainIngredients.reduce((sum, currentItem) => sum + currentItem.price, 0);
+  const totalPrice = useMemo(
+    () =>
+      bun &&
+      bun.price * 2 + mainIngredients.reduce((sum, currentItem) => sum + currentItem.price, 0),
+    [bun, mainIngredients]
+  );
 
-  const [{ isHover }, dropTarget] = useDrop({
+  const [{ hasError, draggedItem }, dropTarget] = useDrop({
     accept: "ingredietns",
     drop(ingredient) {
       if (ingredient.type === "bun") {
@@ -39,7 +44,8 @@ const BurgerConstructor = () => {
       }
     },
     collect: (monitor) => ({
-      isHover: monitor.isOver() && monitor.getItem().type === "bun",
+      draggedItem: monitor.getItem(),
+      hasError: monitor.isOver() && draggedItem.type !== "bun" && !bun,
     }),
   });
 
@@ -48,8 +54,9 @@ const BurgerConstructor = () => {
       <section className={constructorStyles["burger-constructor"]}>
         <ul
           className={`${constructorStyles["burger-ingredients"]} ${
-            isHover ? constructorStyles["burger-ingredients-hover"] : ""
-          }`}
+            draggedItem && !bun ? constructorStyles["burger-ingredients-hover"] : ""
+          }
+          ${hasError && constructorStyles["burger-ingredients-error"]}`}
           ref={dropTarget}
         >
           <>
@@ -64,24 +71,9 @@ const BurgerConstructor = () => {
                 />
               </li>
             )}
-
             <li className={constructorStyles["burger-main"]}>
-              {mainIngredients.length > 0 && (
-                <ul className={`${constructorStyles["burger-main-ingredients"]} pl-4 pr-4`}>
-                  {mainIngredients.map(({ name, price, image_mobile, uuid, _id }, idx) => (
-                    <MainIngredient
-                      key={idx}
-                      name={name}
-                      price={price}
-                      image={image_mobile}
-                      uuid={uuid}
-                      id={_id}
-                    />
-                  ))}
-                </ul>
-              )}
+              {mainIngredients.length > 0 && <MainIngredients />}
             </li>
-
             {bun && (
               <li className={constructorStyles["burger-bun"]}>
                 <ConstructorElement
@@ -95,7 +87,7 @@ const BurgerConstructor = () => {
             )}
           </>
         </ul>
-        <TotalPrice totalPrice={totalPrice} />
+        <OrderContainer totalPrice={totalPrice} />
       </section>
       {orderDetails && (
         <Modal classModifier="order-details">

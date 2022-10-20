@@ -1,6 +1,7 @@
 export const ADD_INGREDIENT = "ADD_INGREDIENT";
 export const ADD_BUN = "ADD_BUN";
 export const DELETE_INGREDIENT = "DELETE_INGREDIENT";
+export const UPDATE_MAIN_INGREDIENTS = "UPDATE_MAIN_INGREDIENTS";
 
 export const addIngredient = (ingredient) => ({
   type: ADD_INGREDIENT,
@@ -15,4 +16,9 @@ export const addBun = (bun) => ({
 export const deleteIngredient = (uuid) => ({
   type: DELETE_INGREDIENT,
   uuid,
+});
+
+export const updateMainIngredients = (newMainIngredients) => ({
+  type: UPDATE_MAIN_INGREDIENTS,
+  mainIngredients: newMainIngredients,
 });
