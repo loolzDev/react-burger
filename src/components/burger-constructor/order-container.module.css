@@ -1,0 +1,14 @@
+.order-container,
+.total-price {
+  display: flex;
+  align-items: center;
+}
+
+.order-container {
+  justify-content: flex-end;
+  gap: 40px;
+}
+
+.total-price {
+  gap: 9.5px;
+}

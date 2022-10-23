@@ -11,3 +11,13 @@ const checkResponse = (res) => {
 export const getIngredients = () => {
   return fetch(`${BASE_URL}/ingredients`).then((res) => checkResponse(res));
 };
+
+export const sendIngredients = (ids) => {
+  return fetch(`${BASE_URL}/orders`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ingredients: ids }),
+  }).then((res) => checkResponse(res));
+};

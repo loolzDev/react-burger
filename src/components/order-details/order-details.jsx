@@ -1,6 +1,7 @@
+import PropTypes from "prop-types";
+
 import orderStyles from "./order-details.module.css";
 import doneImg from "../../images/done.png";
-import { propTypesOrderDetails } from "../../constants";
 
 const OrderDetails = ({ identifier }) => {
   return (
@@ -22,6 +23,6 @@ const OrderDetails = ({ identifier }) => {
   );
 };
 
-OrderDetails.propTypes = propTypesOrderDetails;
+OrderDetails.propTypes = { identifier: PropTypes.number.isRequired };
 
 export default OrderDetails;

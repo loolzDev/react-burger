@@ -1,0 +1,27 @@
+.card,
+.price {
+  display: flex;
+}
+
+.card {
+  flex-direction: column;
+  position: relative;
+  max-width: 272px;
+  box-sizing: border-box;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.dragged {
+  background-color: #4c4cff;
+  border-radius: 10px;
+}
+
+.card-title {
+  height: 48px;
+}
+
+.price {
+  gap: 9px;
+}

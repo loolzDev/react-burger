@@ -13,21 +13,27 @@ const AppHeader = () => {
       <nav className={headerStyles.navigation}>
         <ul className={headerStyles.list}>
           <li className={`${headerStyles.item} p-4`}>
-            <BurgerIcon type="primary" />
-            Конструктор
+            <a className={headerStyles.link} href="#">
+              <BurgerIcon type="primary" />
+              Конструктор
+            </a>
           </li>
           <li className={`${headerStyles.item} pb-4 pt-4 pl-5 pr-5 text_color_inactive`}>
-            <ListIcon type="secondary" />
-            Лента заказов
+            <a className={headerStyles.link} href="#">
+              <ListIcon type="secondary" />
+              Лента заказов
+            </a>
           </li>
           <li className={headerStyles.logo}>
-            <Logo />
+            <a className={headerStyles.link} href="#">
+              <Logo />
+            </a>
           </li>
-          <li className={`${headerStyles.item} pb-4 pt-4 pl-5 pr-5`}>
-            <button className={`${headerStyles.button} text_color_inactive`}>
+          <li className={`${headerStyles.item} pb-4 pt-4 pl-5 pr-5 text_color_inactive`}>
+            <a className={headerStyles.link} href="#">
               <ProfileIcon type="secondary" />
               Личный кабинет
-            </button>
+            </a>
           </li>
         </ul>
       </nav>
