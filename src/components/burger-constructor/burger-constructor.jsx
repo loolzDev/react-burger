@@ -1,31 +1,28 @@
-import { v4 as uuidv4 } from "uuid";
 import { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
-
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import constructorStyles from "./burger-constructor.module.css";
 import MainIngredients from "./main-ingredients";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import OrderContainer from "./order-container";
 
-import constructorStyles from "./burger-constructor.module.css";
-
 import { updateIngredients } from "../../services/actions/ingredients";
 import { addIngredient, addBun } from "../../services/actions/constructor";
+import { REMOVE_ORDER_DATA } from "../../services/actions/order";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const { bun, mainIngredients } = useSelector(
-    (store) => store.burgerConstructor.selectedIngredients
-  );
-  const orderDetails = useSelector((store) => store.modal.orderDetails);
+  const { bun, mainIngredients } = useSelector((store) => store.burgerConstructor);
+  const orderDetails = useSelector((store) => store.order.orderDetails);
 
   const totalPrice = useMemo(
     () =>
-      bun &&
-      bun.price * 2 + mainIngredients.reduce((sum, currentItem) => sum + currentItem.price, 0),
+      bun
+        ? bun.price * 2 + mainIngredients.reduce((sum, currentItem) => sum + currentItem.price, 0)
+        : 0,
     [bun, mainIngredients]
   );
 
@@ -39,7 +36,7 @@ const BurgerConstructor = () => {
       }
       if (bun) {
         dispatch(updateIngredients(ingredient._id, "increment"));
-        dispatch(addIngredient({ ...ingredient, uuid: uuidv4() }));
+        dispatch(addIngredient(ingredient));
       }
     },
     collect: (monitor) => ({
@@ -89,7 +86,7 @@ const BurgerConstructor = () => {
         <OrderContainer totalPrice={totalPrice} />
       </section>
       {orderDetails && (
-        <Modal classModifier="order-details">
+        <Modal classModifier="order-details" actionType={REMOVE_ORDER_DATA}>
           <OrderDetails identifier={orderDetails.order.number} />
         </Modal>
       )}

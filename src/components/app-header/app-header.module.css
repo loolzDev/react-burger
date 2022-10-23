@@ -1,6 +1,6 @@
 .header,
 .list,
-.item,
+.link,
 .button {
   display: flex;
   align-items: center;
@@ -22,9 +22,14 @@
   cursor: pointer;
 }
 
-.item,
+.link,
 .button {
   gap: 9px;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
 }
 
 .item:last-of-type {

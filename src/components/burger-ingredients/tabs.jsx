@@ -1,14 +1,14 @@
-import { useSelector } from "react-redux";
-
-import tabsStyles from "./tabs.module.css";
+import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const Tabs = () => {
-  const { ingredientTypes, currentTab } = useSelector((store) => store.ingredients);
+import tabsStyles from "./tabs.module.css";
+import { TABS } from "../../constants";
+
+const Tabs = ({ currentTab }) => {
   return (
     <nav className="mb-10">
       <ul className={tabsStyles["tabs"]}>
-        {ingredientTypes.map((ingredient, idx) => (
+        {TABS.map((ingredient, idx) => (
           <li key={idx} className={tabsStyles.item}>
             <Tab active={ingredient.type === currentTab}>{ingredient.title}</Tab>
           </li>
@@ -17,5 +17,7 @@ const Tabs = () => {
     </nav>
   );
 };
+
+Tabs.propTypes = { currentTab: PropTypes.string.isRequired };
 
 export default Tabs;

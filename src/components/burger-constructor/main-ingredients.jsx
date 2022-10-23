@@ -7,9 +7,7 @@ import { updateMainIngredients } from "../../services/actions/constructor";
 
 const MainIngredients = () => {
   const dispatch = useDispatch();
-  const mainIngredients = useSelector(
-    (store) => store.burgerConstructor.selectedIngredients.mainIngredients
-  );
+  const mainIngredients = useSelector((store) => store.burgerConstructor.mainIngredients);
 
   const moveIngredient = useCallback(
     (dragIndex, hoverIndex) => {
@@ -25,14 +23,10 @@ const MainIngredients = () => {
 
   return (
     <ul className={`${mainIngredientsStyles["main-ingredients"]} pl-4 pr-4`}>
-      {mainIngredients.map(({ name, price, image_mobile, uuid, _id }, idx) => (
+      {mainIngredients.map((ingredient, idx) => (
         <MainIngredient
-          key={idx}
-          name={name}
-          price={price}
-          image={image_mobile}
-          uuid={uuid}
-          id={_id}
+          key={ingredient.uuid}
+          ingredient={ingredient}
           index={idx}
           moveIngredient={moveIngredient}
         />

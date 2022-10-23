@@ -1,15 +1,15 @@
 import { useDispatch } from "react-redux";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
+import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
 import mainIngredientStyles from "./main-ingredient.module.css";
-import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-
-import { propTypesMainIngredient } from "../../constants";
 import { updateIngredients } from "../../services/actions/ingredients";
 import { deleteIngredient } from "../../services/actions/constructor";
 
-const MainIngredient = ({ name, price, image, uuid, id, index, moveIngredient }) => {
+const MainIngredient = ({ ingredient, index, moveIngredient }) => {
+  const { _id: id, uuid, name, price, image } = ingredient;
   const ref = useRef(null);
   const dispatch = useDispatch();
 
@@ -19,12 +19,11 @@ const MainIngredient = ({ name, price, image, uuid, id, index, moveIngredient })
     dispatch(deleteIngredient(uuid, id));
   };
 
-  const [{ handlerId, isHover }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop({
     accept: "component",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
-        isHover: monitor.isOver(),
       };
     },
     hover(item, monitor) {
@@ -67,7 +66,7 @@ const MainIngredient = ({ name, price, image, uuid, id, index, moveIngredient })
       ref={ref}
       onDrop={preventDefault}
       data-handler-id={handlerId}
-      style={{ opacity: isHover && 0 }}
+      style={{ opacity: isDragging ? 0 : 1 }}
     >
       <DragIcon type="primary" />
       <ConstructorElement text={name} price={price} thumbnail={image} />
@@ -75,6 +74,23 @@ const MainIngredient = ({ name, price, image, uuid, id, index, moveIngredient })
   );
 };
 
-MainIngredient.propTypes = propTypesMainIngredient;
+MainIngredient.propTypes = {
+  ingredient: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    image_mobile: PropTypes.string.isRequired,
+    image_large: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
+  }),
+  index: PropTypes.number.isRequired,
+  moveIngredient: PropTypes.func.isRequired,
+};
 
 export default MainIngredient;

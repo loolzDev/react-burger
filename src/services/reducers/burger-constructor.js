@@ -6,10 +6,8 @@ import {
 } from "../actions/constructor";
 
 const initialState = {
-  selectedIngredients: {
-    bun: null,
-    mainIngredients: [],
-  },
+  bun: null,
+  mainIngredients: [],
 };
 
 export const constructorReducer = (state = initialState, action) => {
@@ -17,42 +15,28 @@ export const constructorReducer = (state = initialState, action) => {
     case ADD_INGREDIENT: {
       return {
         ...state,
-        selectedIngredients: {
-          ...state.selectedIngredients,
-          mainIngredients: [...state.selectedIngredients.mainIngredients, action.ingredient],
-        },
+        mainIngredients: [...state.mainIngredients, action.ingredient],
       };
     }
 
     case ADD_BUN: {
       return {
         ...state,
-        selectedIngredients: {
-          ...state.selectedIngredients,
-          bun: action.bun,
-        },
+        bun: action.bun,
       };
     }
 
     case DELETE_INGREDIENT: {
       return {
         ...state,
-        selectedIngredients: {
-          ...state.selectedIngredients,
-          mainIngredients: state.selectedIngredients.mainIngredients.filter(
-            (item) => item.uuid !== action.uuid
-          ),
-        },
+        mainIngredients: state.mainIngredients.filter((item) => item.uuid !== action.uuid),
       };
     }
 
     case UPDATE_MAIN_INGREDIENTS: {
       return {
         ...state,
-        selectedIngredients: {
-          ...state.selectedIngredients,
-          mainIngredients: action.mainIngredients,
-        },
+        mainIngredients: action.mainIngredients,
       };
     }
 

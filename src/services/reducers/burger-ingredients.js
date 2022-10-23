@@ -3,20 +3,12 @@ import {
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
   UPDATE_INGREDIENTS,
-  CHANGE_CURRENT_TAB,
 } from "../actions/ingredients";
 
 const initialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
-
-  currentTab: "bun",
-  ingredientTypes: [
-    { title: "Булки", type: "bun" },
-    { title: "Соусы", type: "sauce" },
-    { title: "Начинки", type: "main" },
-  ],
 };
 
 const getUpdateIngredients = (state, ingredientId, type) => {
@@ -66,7 +58,7 @@ export const ingredientsReducer = (state = initialState, action) => {
     case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
-        ingredients: action.ingredietns,
+        ingredients: action.ingredients,
         ingredientsRequest: false,
         ingredientsFailed: false,
       };
@@ -83,13 +75,6 @@ export const ingredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients: getUpdateIngredients(state, action.ingredientId, action.actionType),
-      };
-    }
-
-    case CHANGE_CURRENT_TAB: {
-      return {
-        ...state,
-        currentTab: action.currentTab,
       };
     }
 

@@ -1,23 +1,22 @@
+import PropTypes from "prop-types";
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import modalStyles from "./modal.module.css";
-import { propTypesModal } from "../../constants";
-import { REMOVE_MODAL_DATA } from "../../services/actions/modal";
 
-const Modal = ({ children, title = "", classModifier }) => {
+const Modal = ({ children, title = "", classModifier, actionType }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     document.addEventListener("keydown", handlePressEscape);
 
-    return () => document.addEventListener("keydown", handlePressEscape);
-  });
+    return () => document.removeEventListener("keydown", handlePressEscape);
+  }, []);
 
   const handleClose = () => {
-    dispatch({ type: REMOVE_MODAL_DATA });
+    dispatch({ type: actionType });
   };
 
   const handlePressEscape = (event) => {
@@ -42,6 +41,11 @@ const Modal = ({ children, title = "", classModifier }) => {
   );
 };
 
-Modal.propTypes = propTypesModal;
+Modal.propTypes = {
+  children: PropTypes.element.isRequired,
+  title: PropTypes.string,
+  classModifier: PropTypes.string,
+  actionType: PropTypes.string.isRequired,
+};
 
 export default Modal;

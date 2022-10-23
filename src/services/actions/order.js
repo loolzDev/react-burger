@@ -4,13 +4,7 @@ export const POST_SELECTED_INGREDIENTS_REQUEST = "POST_SELECTED_INGREDIENTS_REQU
 export const POST_SELECTED_INGREDIENTS_SUCCESS = "POST_SELECTED_INGREDIENTS_SUCCESS";
 export const POST_SELECTED_INGREDIENTS_FAILED = "POST_SELECTED_INGREDIENTS_FAILED";
 
-export const SET_INGREDIENT_DETAILS = "SHOW_INGREDIENT_DETAILS";
-export const REMOVE_MODAL_DATA = "REMOVE_MODAL_DATA";
-
-export const setIngredientDetails = (ingredient) => ({
-  type: SET_INGREDIENT_DETAILS,
-  ingredient: ingredient,
-});
+export const REMOVE_ORDER_DATA = "REMOVE_MODAL_DATA";
 
 export function sendSelectedIngredients(ids) {
   return function (dispatch) {

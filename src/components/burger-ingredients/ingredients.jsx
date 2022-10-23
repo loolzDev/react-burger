@@ -1,14 +1,16 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import ingredientsStyles from "./ingredients.module.css";
-import { getBurgerIngredients, changeCurrentTab } from "../../services/actions/ingredients";
-
+import { TABS } from "../../constants";
+import Tabs from "./tabs";
 import Ingredient from "./ingredient";
+import { getBurgerIngredients } from "../../services/actions/ingredients";
 
 const Ingredients = () => {
   const dispatch = useDispatch();
-  const { ingredients, ingredientTypes } = useSelector((store) => store.ingredients);
+  const [currentTab, setCurrentTab] = useState("bun");
+  const { ingredients } = useSelector((store) => store.ingredients);
 
   useEffect(() => {
     dispatch(getBurgerIngredients());
@@ -26,7 +28,7 @@ const Ingredients = () => {
     const minDistance = Math.min(bunDistance, sauceDistance, mainDistance);
     const currentActiveTab =
       minDistance === bunDistance ? "bun" : minDistance === sauceDistance ? "sauce" : "main";
-    dispatch(changeCurrentTab(currentActiveTab));
+    setCurrentTab(currentActiveTab);
   };
 
   const getDistance = (refType) => {
@@ -41,30 +43,33 @@ const Ingredients = () => {
   };
 
   return (
-    <div
-      className={ingredientsStyles["ingredients-wrapper"]}
-      ref={scrollWrapperRef}
-      onScroll={handleScroll}
-    >
-      {ingredientTypes.map((ingredient, idx) => (
-        <div
-          ref={getRefType(ingredient.type)}
-          key={idx}
-          className={ingredientsStyles["ingredient-container"]}
-        >
-          <span className={`${ingredientsStyles.title} text text_type_main-medium`}>
-            {ingredient.title}
-          </span>
-          <ul className={`${ingredientsStyles["ingredients-list"]} pl-4 pt-6`}>
-            {ingredients
-              .filter((item) => item.type === ingredient.type)
-              .map((item) => (
-                <Ingredient key={item._id} item={item} />
-              ))}
-          </ul>
-        </div>
-      ))}
-    </div>
+    <>
+      <Tabs currentTab={currentTab} />
+      <div
+        className={ingredientsStyles["ingredients-wrapper"]}
+        ref={scrollWrapperRef}
+        onScroll={handleScroll}
+      >
+        {TABS.map((ingredient, idx) => (
+          <div
+            ref={getRefType(ingredient.type)}
+            key={idx}
+            className={ingredientsStyles["ingredient-container"]}
+          >
+            <span className={`${ingredientsStyles.title} text text_type_main-medium`}>
+              {ingredient.title}
+            </span>
+            <ul className={`${ingredientsStyles["ingredients-list"]} pl-4 pt-6`}>
+              {ingredients
+                .filter((item) => item.type === ingredient.type)
+                .map((item) => (
+                  <Ingredient key={item._id} item={item} />
+                ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 
