@@ -63,7 +63,7 @@ const Ingredients = () => {
               {ingredients
                 .filter((item) => item.type === ingredient.type)
                 .map((item) => (
-                  <Ingredient key={item._id} item={item} />
+                  <Ingredient key={item._id} ingredient={item} />
                 ))}
             </ul>
           </div>

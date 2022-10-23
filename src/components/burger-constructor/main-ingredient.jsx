@@ -5,7 +5,6 @@ import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burg
 import PropTypes from "prop-types";
 
 import mainIngredientStyles from "./main-ingredient.module.css";
-import { updateIngredients } from "../../services/actions/ingredients";
 import { deleteIngredient } from "../../services/actions/constructor";
 
 const MainIngredient = ({ ingredient, index, moveIngredient }) => {
@@ -15,7 +14,6 @@ const MainIngredient = ({ ingredient, index, moveIngredient }) => {
 
   const handleDelete = (e) => {
     if (!e.target.closest(".constructor-element__action")) return;
-    dispatch(updateIngredients(id, "decrement"));
     dispatch(deleteIngredient(uuid, id));
   };
 

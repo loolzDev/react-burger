@@ -1,7 +1,6 @@
 .header,
 .list,
-.link,
-.button {
+.link {
   display: flex;
   align-items: center;
 }
@@ -22,14 +21,10 @@
   cursor: pointer;
 }
 
-.link,
-.button {
-  gap: 9px;
-}
-
 .link {
   text-decoration: none;
   color: inherit;
+  gap: 9px;
 }
 
 .item:last-of-type {
@@ -42,15 +37,4 @@
   left: calc(50% - 145px);
   align-self: center;
   height: 50px;
-}
-
-.button {
-  font-family: inherit;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-  background: none;
-  padding: 0;
-  border: none;
-  cursor: pointer;
 }

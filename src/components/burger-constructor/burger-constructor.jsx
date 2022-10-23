@@ -9,7 +9,6 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import OrderContainer from "./order-container";
 
-import { updateIngredients } from "../../services/actions/ingredients";
 import { addIngredient, addBun } from "../../services/actions/constructor";
 import { REMOVE_ORDER_DATA } from "../../services/actions/order";
 
@@ -30,12 +29,10 @@ const BurgerConstructor = () => {
     accept: "ingredietns",
     drop(ingredient) {
       if (ingredient.type === "bun") {
-        dispatch(updateIngredients(ingredient._id));
         dispatch(addBun(ingredient));
         return;
       }
       if (bun) {
-        dispatch(updateIngredients(ingredient._id, "increment"));
         dispatch(addIngredient(ingredient));
       }
     },
